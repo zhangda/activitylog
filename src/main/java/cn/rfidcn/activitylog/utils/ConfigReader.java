@@ -1,4 +1,4 @@
-package cn.rfidcn.trystorm.utils;
+package cn.rfidcn.activitylog.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
