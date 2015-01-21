@@ -1,1 +1,3 @@
 create 'activity', 'scan'
+
+create 'activitycount',{NAME=>'daily',VERSION=>1},{NAME=>'monthly',VERSION=>1},{NAME=>'country',VERSION=>1},{NAME=>'state',VERSION=>1},{NAME=>'city',VERSION=>1}

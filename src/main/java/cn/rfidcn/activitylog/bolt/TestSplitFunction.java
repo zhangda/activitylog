@@ -12,6 +12,7 @@ public class TestSplitFunction  extends BaseFunction {
 
 	@Override
 	public void execute(TridentTuple tuple, TridentCollector collector) {
+		//ip,companyid,productid
 		String s = tuple.getString(0);
 		Activity act = new Activity();
 		String[] ss = s.split(",");
