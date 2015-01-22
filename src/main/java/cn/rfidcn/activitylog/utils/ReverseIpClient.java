@@ -7,6 +7,8 @@ import java.net.UnknownHostException;
 
 import org.apache.log4j.Logger;
 
+import cn.rfidcn.activitylog.KafkaStormTopology;
+
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
@@ -18,7 +20,7 @@ public class ReverseIpClient {
 	static DatabaseReader reader; 
 	
 	private static void getReader(){
-		File database = new File(ConfigReader.getProperty("GeoLite2-City"));
+		File database = new File(KafkaStormTopology.GeoLite2_City);
 		try {
 			reader = new DatabaseReader.Builder(database).build();
 		} catch (IOException e) {

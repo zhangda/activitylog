@@ -24,5 +24,15 @@ CREATE TABLE `test_storm` (
   `txid` int NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 
+CREATE TABLE `trystorm` (
+  `company` varchar(50) NOT NULL DEFAULT '',
+  `product` varchar(50) NOT NULL DEFAULT '',
+  `timestamp` datetime NOT NULL,
+  `country` varchar(50) NOT NULL DEFAULT '',
+  `state` varchar(50) NOT NULL DEFAULT '',
+  `city` varchar(50) NOT NULL DEFAULT '',
+  `txid` int NOT NULL DEFAULT 0,
+  `count` int NOT NULL DEFAULT 0
+) ENGINE=MyISAM DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 
-CREATE UNIQUE INDEX uk ON trystorm(content,country,state,city);
+CREATE UNIQUE INDEX uk ON trystorm(company, product, timestamp, city);

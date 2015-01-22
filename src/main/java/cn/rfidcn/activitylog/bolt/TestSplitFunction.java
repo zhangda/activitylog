@@ -13,13 +13,13 @@ public class TestSplitFunction  extends BaseFunction {
 	@Override
 	public void execute(TridentTuple tuple, TridentCollector collector) {
 		//ip,companyid,productid
-		String s = tuple.getString(0);
+		String s = tuple.getString(0).trim();
 		Activity act = new Activity();
 		String[] ss = s.split(",");
-		act.setOriginIp(ss[0]);
-		act.setCompanyId(Integer.parseInt(ss[1]));
-		act.setTimestamp(new Date());
-		act.setProductId(Integer.parseInt(ss[2]));
+		act.setOip(ss[0]);
+		act.setC(Integer.parseInt(ss[1]));
+		act.setTs(new Date());
+		act.setPid(Integer.parseInt(ss[2]));
 		collector.emit(new Values(act));
 	}
 	

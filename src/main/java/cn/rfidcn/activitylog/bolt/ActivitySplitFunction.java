@@ -21,7 +21,7 @@ public class ActivitySplitFunction  extends BaseFunction{
 			  Activity flatAct = new Activity();
 			  try {
 				BeanUtils.copyProperties(flatAct, act);
-//				flatAct.setTimestamp(((ActivityUserScan)act).getTimestamp());
+				flatAct.setActType(act.getClass().getName());
 			} catch (IllegalAccessException | InvocationTargetException e) {
 				e.printStackTrace();
 			}

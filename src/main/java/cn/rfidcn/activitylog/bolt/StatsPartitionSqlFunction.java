@@ -14,12 +14,12 @@ public class StatsPartitionSqlFunction extends BaseFunction{
 	@Override
 	public void execute(TridentTuple tuple, TridentCollector collector) {
 		Activity act = (Activity)tuple.get(0);
-		String country = tuple.getString(1);
-		String state = tuple.getString(2);
-		String city = tuple.getString(3);
 		
-		String content = padding(act.getCompanyId())+padding(act.getProductId());
-		collector.emit(new Values(content));
+		String company = padding(act.getC());
+        String product = padding(act.getPid());
+        Date time = act.getTs();
+        Date timestamp = new Date(time.getYear(), time.getMonth()+1, time.getDate(), time.getHours(), 0);
+		collector.emit(new Values(company,product, timestamp));
 	}
 
 	

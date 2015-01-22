@@ -23,15 +23,15 @@ public class StatsPartitionFunction extends BaseFunction {
 	public void execute(TridentTuple tuple, TridentCollector collector) {
 		
 		Activity act = (Activity)tuple.get(0);
-		Date date = act.getTimestamp();
+		Date date = act.getTs();
 		SimpleDateFormat format=new SimpleDateFormat("yyyyMMdd");
 		String daily = format.format(date);
 		String monthly = daily.substring(0,6);
-		String country = tuple.getString(1);
-		String state = tuple.getString(2);
-		String city = tuple.getString(3);
+		String country = daily + tuple.getString(1);
+		String state = daily + tuple.getString(2);
+		String city = daily + tuple.getString(3);
 		
-		String rowkey = padding(act.getCompanyId())+padding(act.getProductId());
+		String rowkey = padding(act.getC())+padding(act.getPid());
 		
 		collector.emit(new Values(rowkey, cfStatsDaily, daily));
 		collector.emit(new Values(rowkey, cfStatsMonthly, monthly));

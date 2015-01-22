@@ -99,7 +99,7 @@ public class MysqlState<T> implements IBackingMap<T>{
 					}
 				}
 			}));
-			logger.debug(String.format("%1$d keys retrieved", pkeys.size()));
+			logger.info(String.format("%1$d keys retrieved", pkeys.size()));
 		}
 		return result;
 	}
@@ -164,7 +164,7 @@ public class MysqlState<T> implements IBackingMap<T>{
 					}
 				}
 			}
-			logger.debug(String.format("%1$d keys flushed", pkeys.size()));
+			logger.info(String.format("%1$d keys flushed", pkeys.size()));
 		}
 	}
 

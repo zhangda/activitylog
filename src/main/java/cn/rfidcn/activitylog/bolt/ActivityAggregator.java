@@ -27,8 +27,8 @@ import storm.trident.operation.TridentOperationContext;
 import storm.trident.topology.TransactionAttempt;
 import storm.trident.tuple.TridentTuple;
 import backtype.storm.topology.FailedException;
+import cn.rfidcn.activitylog.KafkaStormTopology;
 import cn.rfidcn.activitylog.model.Activity;
-import cn.rfidcn.activitylog.utils.ConfigReader;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -44,11 +44,6 @@ public class ActivityAggregator implements  Aggregator{
 	List<String> cols = Activity.getCols();
 	
 	static Configuration hbaseConfig = HBaseConfiguration.create();
-	static {
-		hbaseConfig.set("hbase.zookeeper.property.clientPort",  ConfigReader.getProperty("zkPort")); 
-		hbaseConfig.set("hbase.zookeeper.quorum",  ConfigReader.getProperty("zkQuorum")); 
-		hbaseConfig.set("hbase.master",  ConfigReader.getProperty("hMaster")); 
-	}
 	
 	@Override
 	public void prepare(Map conf, TridentOperationContext context) {
@@ -58,13 +53,13 @@ public class ActivityAggregator implements  Aggregator{
 				logger.error("ClassNotFoundException", e);
 			}
 			try {
-				mysqlConnection = DriverManager.getConnection(ConfigReader.getProperty("mysqlConn"));
+				mysqlConnection = DriverManager.getConnection(KafkaStormTopology.mysqlUrl);
 			} catch (SQLException e) {
 				logger.error("SQLException", e);
 			}
 			
 			try {
-				hTable = new HTable(hbaseConfig, ConfigReader.getProperty("hbaseTablename"));
+				hTable = new HTable(hbaseConfig, KafkaStormTopology.hbaseActTable);
 				hTable.setAutoFlush(false, true);
 			} catch (IOException e) {
 				logger.error("IOException", e);
@@ -108,7 +103,7 @@ public class ActivityAggregator implements  Aggregator{
 		logger.info("persist to database, # of records: " + activityQueue.size());
 	
 //		if(persistToMysql() && persistToHbase()){
-			if(persistToHbase()){
+		if(persistToHbase()){
 			activityQueue.clear();
 		}else{
 			activityQueue.clear();
@@ -120,13 +115,13 @@ public class ActivityAggregator implements  Aggregator{
 		boolean flag = true;
 		try {
 			if(mysqlConnection == null || mysqlConnection.isClosed())
-				mysqlConnection = DriverManager.getConnection(ConfigReader.getProperty("mysqlConn"));
+				mysqlConnection = DriverManager.getConnection(KafkaStormTopology.mysqlUrl);
 			} catch(SQLException e){
 				logger.error("SQLException", e);
 				return false;
 		}
 			String sql = new StringBuilder().append("INSERT INTO ")
-				.append(ConfigReader.getProperty("activityTable"))
+				.append(KafkaStormTopology.mysqlActTable)
 				.append(" (")
 				.append(Joiner.on(",").join(cols))
 				.append(")")
@@ -139,7 +134,7 @@ public class ActivityAggregator implements  Aggregator{
 		List<Method> methods = Activity.getters();
 		try {
 			int i=0;
-			int batchSize = Integer.parseInt(ConfigReader.getProperty("mysqlBatchSize"));
+			int batchSize =KafkaStormTopology.mysqlBatchSize;
 			ps = mysqlConnection.prepareStatement(sql);
 			for (final Activity act : activityQueue) {
 				int j=0;
@@ -170,17 +165,17 @@ public class ActivityAggregator implements  Aggregator{
 	private boolean persistToHbase(){
 		if(hTable ==null ){
 			try {
-				hTable = new HTable(hbaseConfig, ConfigReader.getProperty("hbaseTablename"));
+				hTable = new HTable(hbaseConfig, KafkaStormTopology.hbaseActTable);
 				hTable.setAutoFlush(false, true);
 			} catch (IOException e) {
 				logger.error("IOException", e);
 				return false;
 			}
 		}
-		String colFamily = ConfigReader.getProperty("hbaseColFamily");
+		String colFamily = KafkaStormTopology.hbaseColFamily;
 		List<Method> methods = Activity.getters();
 		for (final Activity act : activityQueue) {
-			String rowkey = padding(act.getCompanyId())+padding(act.getProductId())+padding(act.getTimestamp().getTime());
+			String rowkey = padding(act.getC())+padding(act.getPid())+padding(act.getTs().getTime());
 			Put put = new Put(Bytes.toBytes(rowkey));
 			for(Method m : methods){
 				try {

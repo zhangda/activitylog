@@ -18,7 +18,7 @@ public class ReverseIpFunction extends BaseFunction{
 		
 		Activity act = (Activity)tuple.get(0);
 		CityResponse response = null;
-		response = ReverseIpClient.getGeoInfo(act.getOriginIp());
+		response = ReverseIpClient.getGeoInfo(act.getOip());
 		String country = "";
 		String state = "";
 		String city = "";

@@ -1,14 +1,15 @@
 package cn.rfidcn.activitylog.model;
 
-public class ActivityClaimReward extends ActivityUserScan {
-    private String rewardAmount;
+public class ActivityClaimReward extends ActivityUserScan{
 
-    public String getRewardAmount() {
-        return this.rewardAmount;
-    }
+	String pra;
 
-    public void setRewardAmount(String rewardAmount) {
-        this.rewardAmount = rewardAmount;
-    }
+	public String getPra() {
+		return pra;
+	}
 
+	public void setPra(String pra) {
+		this.pra = pra;
+	}
+	
 }

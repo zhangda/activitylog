@@ -24,33 +24,33 @@ import storm.trident.state.map.IBackingMap;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class HBaseAggregateState<T> implements IBackingMap<T> {
   /**
-   * @param config The {@link TridentConfig}
+   * @param config The {@link HbaseTridentConfig}
    * @return {@link StateFactory} for opaque transactional topologies
    */
-  public static StateFactory opaque(TridentConfig<OpaqueValue> config) {
+  public static StateFactory opaque(HbaseTridentConfig<OpaqueValue> config) {
     return new HBaseAggregateFactory(config, StateType.OPAQUE);
   }
 
   /**
-   * @param config The {@link TridentConfig}
+   * @param config The {@link HbaseTridentConfig}
    * @return {@link StateFactory} for transactional topologies
    */
-  public static StateFactory transactional(TridentConfig<TransactionalValue> config) {
+  public static StateFactory transactional(HbaseTridentConfig<TransactionalValue> config) {
     return new HBaseAggregateFactory(config, StateType.TRANSACTIONAL);
   }
 
   /**
-   * @param config The {@link TridentConfig}
+   * @param config The {@link HbaseTridentConfig}
    * @return {@link StateFactory} for non-transactional topologies
    */
-  public static StateFactory nonTransactional(TridentConfig<TransactionalValue> config) {
+  public static StateFactory nonTransactional(HbaseTridentConfig<TransactionalValue> config) {
     return new HBaseAggregateFactory(config, StateType.NON_TRANSACTIONAL);
   }
 
   private HTableConnector connector;
   private Serializer serializer;
 
-  public HBaseAggregateState(TridentConfig config) {
+  public HBaseAggregateState(HbaseTridentConfig config) {
     this.serializer = config.getStateSerializer();
     try {
       this.connector = new HTableConnector(config);
@@ -75,7 +75,7 @@ public class HBaseAggregateState<T> implements IBackingMap<T> {
       gets.add(g.addColumn(cf, cq));
     }
 
-    // Log.debug("GETS: " + gets.toString());
+    System.out.println("GETS: " + gets.toString());
 
     Result[] results = null;
     try {
@@ -114,7 +114,7 @@ public class HBaseAggregateState<T> implements IBackingMap<T> {
       puts.add(p.add(cf, cq, cv));
     }
 
-    // Log.debug("PUTS: " + puts.toString());
+    System.out.println("PUTS: " + puts.toString());
 
     try {
       connector.getTable().put(puts);

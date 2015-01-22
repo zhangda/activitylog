@@ -6,9 +6,9 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-public class ConfigReader {
+public class ConfReader {
 	
-	static final Logger logger = Logger.getLogger(ConfigReader.class);
+	static final Logger logger = Logger.getLogger(ConfReader.class);
 	static Properties p;
 	
 	static void load(){
@@ -27,3 +27,4 @@ public class ConfigReader {
 	}
 
 }
+

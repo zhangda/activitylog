@@ -8,336 +8,291 @@ import java.util.Date;
 import java.util.List;
 
 public class Activity implements Serializable {
-	
-	   short logFormatVersion;
+
+	   int c;
+	   String u;
 	   
-	   Date timestamp;
-	  
-	   String originIp;
-	   
-	   String deploy;
-	 
-	   String host;
-	
-	   String version;
-
-	   String clientId;
-	
-	   String requestId;
-
-	    String level;
-
-	   int appEventId;
-
+	   short lv;
+	   Date ts;
+	   String oip;
+	   String d;
+	   String h;
+	   String v;
+	   String cl;
+	   String r;
+	   String l;
+	   String ae;
+	   int hae;
 	   String msg;
-	    
-	    String honestId;
-	    String sequenceNum;
-	    
-	    int batchId;
-	   int productId;
-	   int specId;
-	   int companyId;
-	    
-	     String rewardAmount;
-	    
-	   int promoRuleId;
-	    String rewardType;
-	    
-	    String country;
-	    String state;
-	    String city;
-	    long txid;
-	    
+	   
+	   int bid;
+	   int pid;
+	   int sid;
+	   String hid;
+	   String num;
+	   short at;
+	   String pn;
+	   String tu;
+	   String wu;
 
 	   
-		public short getLogFormatVersion() {
-			return logFormatVersion;
-		}
-
-
-
-		public void setLogFormatVersion(short logFormatVersion) {
-			this.logFormatVersion = logFormatVersion;
-		}
-
-
-
-		public Date getTimestamp() {
-			return timestamp;
-		}
-
-
-
-		public void setTimestamp(Date timestamp) {
-			this.timestamp = timestamp;
-		}
-
-
-
-		public String getOriginIp() {
-			return originIp;
-		}
-
-
-
-		public void setOriginIp(String originIp) {
-			this.originIp = originIp;
-		}
-
-
-
-		public String getDeploy() {
-			return deploy;
-		}
-
-
-
-		public void setDeploy(String deploy) {
-			this.deploy = deploy;
-		}
-
-
-
-		public String getHost() {
-			return host;
-		}
-
-
-
-		public void setHost(String host) {
-			this.host = host;
-		}
-
-
-
-		public String getVersion() {
-			return version;
-		}
-
-
-
-		public void setVersion(String version) {
-			this.version = version;
-		}
-
-
-
-		public String getClientId() {
-			return clientId;
-		}
-
-
-
-		public void setClientId(String clientId) {
-			this.clientId = clientId;
-		}
-
-
-
-		public String getRequestId() {
-			return requestId;
-		}
-
-
-
-		public void setRequestId(String requestId) {
-			this.requestId = requestId;
-		}
-
-
-
-		public String getLevel() {
-			return level;
-		}
-
-
-
-		public void setLevel(String level) {
-			this.level = level;
-		}
-
-
-
-		public int getAppEventId() {
-			return appEventId;
-		}
-
-
-
-		public void setAppEventId(int appEventId) {
-			this.appEventId = appEventId;
-		}
-
-
-
-		public String getMsg() {
-			return msg;
-		}
-
-
-
-		public void setMsg(String msg) {
-			this.msg = msg;
-		}
-
-
-
-		public String getHonestId() {
-			return honestId;
-		}
-
-
-
-		public void setHonestId(String honestId) {
-			this.honestId = honestId;
-		}
-
-
-
-		public String getSequenceNum() {
-			return sequenceNum;
-		}
-
-
-
-		public void setSequenceNum(String sequenceNum) {
-			this.sequenceNum = sequenceNum;
-		}
-
-
-
-		public int getBatchId() {
-			return batchId;
-		}
-
-
-
-		public void setBatchId(int batchId) {
-			this.batchId = batchId;
-		}
-
-
-
-		public int getProductId() {
-			return productId;
-		}
-
-
-
-		public void setProductId(int productId) {
-			this.productId = productId;
-		}
-
-
-
-		public int getSpecId() {
-			return specId;
-		}
-
-
-
-		public void setSpecId(int specId) {
-			this.specId = specId;
-		}
-
-
-
-		public String getRewardAmount() {
-			return rewardAmount;
-		}
-
-
-
-		public void setRewardAmount(String rewardAmount) {
-			this.rewardAmount = rewardAmount;
-		}
-
-
-
-		public int getPromoRuleId() {
-			return promoRuleId;
-		}
-
-
-
-		public void setPromoRuleId(int promoRuleId) {
-			this.promoRuleId = promoRuleId;
-		}
-
-
-
-		public String getRewardType() {
-			return rewardType;
-		}
-
-
-
-		public void setRewardType(String rewardType) {
-			this.rewardType = rewardType;
-		}
-
-
-
-		public String getCountry() {
-			return country;
-		}
-
-
-
-		public void setCountry(String country) {
-			this.country = country;
-		}
-
-
-
-		public String getState() {
-			return state;
-		}
-
-
-
-		public void setState(String state) {
-			this.state = state;
-		}
-
-
-
-		public String getCity() {
-			return city;
-		}
-
-
-
-		public void setCity(String city) {
-			this.city = city;
-		}
-
-
-
-		public long getTxid() {
-			return txid;
-		}
-
-
-
-		public void setTxid(long txid) {
-			this.txid = txid;
-		}
-
-		
-
-		public int getCompanyId() {
-			return companyId;
-		}
-
-
-
-		public void setCompanyId(int companyId) {
-			this.companyId = companyId;
-		}
-
-
+	   int pri;
+	   String prt;
+	   String pra;
+	  
+	   String country;
+	   String state;
+	   String city;
+	   long txid;
+	   String actType;
+	    
+	   
+	public String getActType() {
+		return actType;
+	}
+
+	public void setActType(String actType) {
+		this.actType = actType;
+	}
+
+	public int getC() {
+		return c;
+	}
+
+	public void setC(int c) {
+		this.c = c;
+	}
+
+	public String getU() {
+		return u;
+	}
+
+	public void setU(String u) {
+		this.u = u;
+	}
+
+	public short getLv() {
+		return lv;
+	}
+
+	public void setLv(short lv) {
+		this.lv = lv;
+	}
+	public Date getTs() {
+		return ts;
+	}
+
+	public void setTs(Date ts) {
+		this.ts = ts;
+	}
+
+	public String getOip() {
+		return oip;
+	}
+
+	public void setOip(String oip) {
+		this.oip = oip;
+	}
+
+	public String getD() {
+		return d;
+	}
+
+	public void setD(String d) {
+		this.d = d;
+	}
+
+	public String getH() {
+		return h;
+	}
+
+	public void setH(String h) {
+		this.h = h;
+	}
+
+	public String getV() {
+		return v;
+	}
+
+	public void setV(String v) {
+		this.v = v;
+	}
+
+	public String getCl() {
+		return cl;
+	}
+
+	public void setCl(String cl) {
+		this.cl = cl;
+	}
+
+	public String getR() {
+		return r;
+	}
+
+	public void setR(String r) {
+		this.r = r;
+	}
+
+	public String getL() {
+		return l;
+	}
+
+	public void setL(String l) {
+		this.l = l;
+	}
+
+	public String getAe() {
+		return ae;
+	}
+
+	public void setAe(String ae) {
+		this.ae = ae;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public int getBid() {
+		return bid;
+	}
+
+	public void setBid(int bid) {
+		this.bid = bid;
+	}
+
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
+
+	public int getSid() {
+		return sid;
+	}
+
+	public void setSid(int sid) {
+		this.sid = sid;
+	}
+
+	public String getHid() {
+		return hid;
+	}
+
+	public void setHid(String hid) {
+		this.hid = hid;
+	}
+
+	public String getNum() {
+		return num;
+	}
+
+	public void setNum(String num) {
+		this.num = num;
+	}
+
+	public short getAt() {
+		return at;
+	}
+
+	public void setAt(short at) {
+		this.at = at;
+	}
+
+	public String getPn() {
+		return pn;
+	}
+
+	public void setPn(String pn) {
+		this.pn = pn;
+	}
+
+	public String getTu() {
+		return tu;
+	}
+
+	public void setTu(String tu) {
+		this.tu = tu;
+	}
+
+	public String getWu() {
+		return wu;
+	}
+
+	public void setWu(String wu) {
+		this.wu = wu;
+	}
+
+	public int getHae() {
+		return hae;
+	}
+
+	public void setHae(int hae) {
+		this.hae = hae;
+	}
+
+	public int getPri() {
+		return pri;
+	}
+
+	public void setPri(int pri) {
+		this.pri = pri;
+	}
+
+	public String getPrt() {
+		return prt;
+	}
+
+	public void setPrt(String prt) {
+		this.prt = prt;
+	}
+
+	public String getPra() {
+		return pra;
+	}
+
+	public void setPra(String pra) {
+		this.pra = pra;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public long getTxid() {
+		return txid;
+	}
+
+	public void setTxid(long txid) {
+		this.txid = txid;
+	}
 
 		public static List<String> getCols() {
 			List<String> cols = new ArrayList<String>();
@@ -363,7 +318,5 @@ public class Activity implements Serializable {
 			 }
 			 return gets;
 		}
-		
-	
-		
 }
+

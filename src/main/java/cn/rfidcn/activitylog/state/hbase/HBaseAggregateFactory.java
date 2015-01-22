@@ -23,18 +23,18 @@ import backtype.storm.tuple.Values;
 public class HBaseAggregateFactory implements StateFactory {
   private static final Logger LOG = Logger.getLogger(HBaseAggregateFactory.class);
   private StateType type;
-  private TridentConfig config;
+  private HbaseTridentConfig config;
 
   /**
-   * @param config The {@link TridentConfig}
+   * @param config The {@link HbaseTridentConfig}
    * @param type The {@link StateType}
    */
-  public HBaseAggregateFactory(final TridentConfig config, final StateType type) {
+  public HBaseAggregateFactory(final HbaseTridentConfig config, final StateType type) {
     this.config = config;
     this.type = type;
 
     if (config.getStateSerializer() == null) {
-      config.setStateSerializer(TridentConfig.DEFAULT_SERIALZERS.get(type));
+      config.setStateSerializer(HbaseTridentConfig.DEFAULT_SERIALZERS.get(type));
       if (config.getStateSerializer() == null) {
         throw new RuntimeException("Unable to find serializer for state type: " + type);
       }

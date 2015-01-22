@@ -22,7 +22,7 @@ import com.esotericsoftware.minlog.Log;
  * @param <T>
  */
 @SuppressWarnings("serial")
-public class TridentConfig<T> extends TupleTableConfig {
+public class HbaseTridentConfig<T> extends TupleTableConfig {
   @SuppressWarnings("rawtypes")
   public static final Map<StateType, Serializer> DEFAULT_SERIALZERS =
       new HashMap<StateType, Serializer>() {
@@ -36,11 +36,11 @@ public class TridentConfig<T> extends TupleTableConfig {
   private int stateCacheSize = 1000;
   private Serializer<T> stateSerializer;
 
-  public TridentConfig(String table, String rowKeyField) {
+  public HbaseTridentConfig(String table, String rowKeyField) {
     super(table, rowKeyField);
   }
 
-  public TridentConfig(final String table, final String rowKeyField, final String timestampField) {
+  public HbaseTridentConfig(final String table, final String rowKeyField, final String timestampField) {
     super(table, rowKeyField, timestampField);
   }
 

@@ -1,35 +1,28 @@
 package cn.rfidcn.activitylog.model;
 
-public class ActivityEnterLottery extends ActivityUserScan {
-
-    private int promoRuleId;
-    private String rewardType;
-    private String rewardAmount;
-
-
-
-    public int getPromoRuleId() {
-        return this.promoRuleId;
-    }
-
-    public void setPromoRuleId(int promoRuleId) {
-        this.promoRuleId = promoRuleId;
-    }
-
-    public String getRewardType() {
-        return this.rewardType;
-    }
-
-    public void setRewardType(String rewardType) {
-        this.rewardType = rewardType;
-    }
-
-    public String getRewardAmount() {
-        return this.rewardAmount;
-    }
-
-    public void setRewardAmount(String rewardAmount) {
-        this.rewardAmount = rewardAmount;
-    }
-
+public class ActivityEnterLottery extends ActivityUserScan{
+	int pri;
+	String prt;
+	String pra;
+	
+	public int getPri() {
+		return pri;
+	}
+	public void setPri(int pri) {
+		this.pri = pri;
+	}
+	public String getPrt() {
+		return prt;
+	}
+	public void setPrt(String prt) {
+		this.prt = prt;
+	}
+	public String getPra() {
+		return pra;
+	}
+	public void setPra(String pra) {
+		this.pra = pra;
+	}
+	
+	
 }
