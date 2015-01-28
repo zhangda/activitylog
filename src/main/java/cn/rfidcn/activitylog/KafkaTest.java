@@ -10,7 +10,7 @@ public class KafkaTest {
 	
 //	public static void main(String[] args) {  
 //		 Properties props = new Properties();   
-//         props.setProperty("metadata.broker.list","61.172.254.144:9092");   
+//         props.setProperty("metadata.broker.list","test-broker2.sao.so:9092");   
 ////		 props.setProperty("metadata.broker.list","192.168.8.104:9092");   
 //         props.setProperty("serializer.class","kafka.serializer.StringEncoder");   
 //         props.put("request.required.acks","1");   

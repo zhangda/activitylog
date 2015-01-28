@@ -2,9 +2,9 @@ package cn.rfidcn.activitylog.model;
 
 public class ActivityUserScan extends AppSysLogEvent{
 
-	int bid;
-	int pid;
-	int sid;
+	String bid;
+    String pid;
+	String sid;
 	String hid;
 	String num;
 	short at;
@@ -13,22 +13,23 @@ public class ActivityUserScan extends AppSysLogEvent{
 	String tu;
 	String wu;
 	
-	public int getBid() {
+
+	public String getBid() {
 		return bid;
 	}
-	public void setBid(int bid) {
+	public void setBid(String bid) {
 		this.bid = bid;
 	}
-	public int getPid() {
+	public String getPid() {
 		return pid;
 	}
-	public void setPid(int pid) {
+	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public int getSid() {
+	public String getSid() {
 		return sid;
 	}
-	public void setSid(int sid) {
+	public void setSid(String sid) {
 		this.sid = sid;
 	}
 	public String getHid() {

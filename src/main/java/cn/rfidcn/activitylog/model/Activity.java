@@ -25,9 +25,9 @@ public class Activity implements Serializable {
 	   int hae;
 	   String msg;
 	   
-	   int bid;
-	   int pid;
-	   int sid;
+	   String bid;
+	   String pid;
+	   String sid;
 	   String hid;
 	   String num;
 	   short at;
@@ -36,7 +36,7 @@ public class Activity implements Serializable {
 	   String wu;
 
 	   
-	   int pri;
+	   String pri;
 	   String prt;
 	   String pra;
 	  
@@ -158,30 +158,6 @@ public class Activity implements Serializable {
 		this.msg = msg;
 	}
 
-	public int getBid() {
-		return bid;
-	}
-
-	public void setBid(int bid) {
-		this.bid = bid;
-	}
-
-	public int getPid() {
-		return pid;
-	}
-
-	public void setPid(int pid) {
-		this.pid = pid;
-	}
-
-	public int getSid() {
-		return sid;
-	}
-
-	public void setSid(int sid) {
-		this.sid = sid;
-	}
-
 	public String getHid() {
 		return hid;
 	}
@@ -238,14 +214,6 @@ public class Activity implements Serializable {
 		this.hae = hae;
 	}
 
-	public int getPri() {
-		return pri;
-	}
-
-	public void setPri(int pri) {
-		this.pri = pri;
-	}
-
 	public String getPrt() {
 		return prt;
 	}
@@ -292,6 +260,38 @@ public class Activity implements Serializable {
 
 	public void setTxid(long txid) {
 		this.txid = txid;
+	}
+	
+	public String getBid() {
+		return bid;
+	}
+
+	public void setBid(String bid) {
+		this.bid = bid;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+
+	public String getSid() {
+		return sid;
+	}
+
+	public void setSid(String sid) {
+		this.sid = sid;
+	}
+
+	public String getPri() {
+		return pri;
+	}
+
+	public void setPri(String pri) {
+		this.pri = pri;
 	}
 
 		public static List<String> getCols() {

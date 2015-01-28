@@ -1,4 +1,7 @@
-CREATE TABLE `test_storm` (
+create database pipeline;
+use pipeline;
+
+CREATE TABLE `activities` (
   `logFormatVersion` int NOT NULL DEFAULT 0,
   `timestamp` datetime NOT NULL,
   `originIp` varchar(255) NOT NULL DEFAULT '',
@@ -24,15 +27,15 @@ CREATE TABLE `test_storm` (
   `txid` int NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE `trystorm` (
+CREATE TABLE `activitycounts` (
   `company` varchar(50) NOT NULL DEFAULT '',
   `product` varchar(50) NOT NULL DEFAULT '',
   `timestamp` datetime NOT NULL,
-  `country` varchar(50) NOT NULL DEFAULT '',
-  `state` varchar(50) NOT NULL DEFAULT '',
-  `city` varchar(50) NOT NULL DEFAULT '',
+  `country` varchar(30) NOT NULL DEFAULT '',
+  `state` varchar(30) NOT NULL DEFAULT '',
+  `city` varchar(30) NOT NULL DEFAULT '',
   `txid` int NOT NULL DEFAULT 0,
   `count` int NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 
-CREATE UNIQUE INDEX uk ON trystorm(company, product, timestamp, city);
+CREATE UNIQUE INDEX uk ON activitycounts(company, product, timestamp, city);

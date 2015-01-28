@@ -19,7 +19,7 @@ public class TestSplitFunction  extends BaseFunction {
 		act.setOip(ss[0]);
 		act.setC(Integer.parseInt(ss[1]));
 		act.setTs(new Date());
-		act.setPid(Integer.parseInt(ss[2]));
+		act.setPid(ss[2]);
 		collector.emit(new Values(act));
 	}
 	

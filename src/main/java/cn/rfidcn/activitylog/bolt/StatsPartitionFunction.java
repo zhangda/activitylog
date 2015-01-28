@@ -2,9 +2,11 @@ package cn.rfidcn.activitylog.bolt;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import storm.trident.operation.BaseFunction;
 import storm.trident.operation.TridentCollector;
+import storm.trident.operation.TridentOperationContext;
 import storm.trident.tuple.TridentTuple;
 import backtype.storm.tuple.Values;
 import cn.rfidcn.activitylog.model.Activity;

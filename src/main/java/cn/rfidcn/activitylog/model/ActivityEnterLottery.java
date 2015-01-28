@@ -1,14 +1,15 @@
 package cn.rfidcn.activitylog.model;
 
 public class ActivityEnterLottery extends ActivityUserScan{
-	int pri;
+	String pri;
 	String prt;
 	String pra;
 	
-	public int getPri() {
+	
+	public String getPri() {
 		return pri;
 	}
-	public void setPri(int pri) {
+	public void setPri(String pri) {
 		this.pri = pri;
 	}
 	public String getPrt() {
