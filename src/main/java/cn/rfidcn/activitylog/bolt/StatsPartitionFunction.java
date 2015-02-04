@@ -2,14 +2,13 @@ package cn.rfidcn.activitylog.bolt;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 
 import storm.trident.operation.BaseFunction;
 import storm.trident.operation.TridentCollector;
-import storm.trident.operation.TridentOperationContext;
 import storm.trident.tuple.TridentTuple;
 import backtype.storm.tuple.Values;
 import cn.rfidcn.activitylog.model.Activity;
+import cn.rfidcn.activitylog.utils.Helper;
 
 public class StatsPartitionFunction extends BaseFunction {
 
@@ -33,28 +32,13 @@ public class StatsPartitionFunction extends BaseFunction {
 		String state = daily + tuple.getString(2);
 		String city = daily + tuple.getString(3);
 		
-		String rowkey = padding(act.getC())+padding(act.getPid());
+		String rowkey = Helper.padding(act.getC())+Helper.padding(act.getPid());
 		
 		collector.emit(new Values(rowkey, cfStatsDaily, daily));
 		collector.emit(new Values(rowkey, cfStatsMonthly, monthly));
 		collector.emit(new Values(rowkey, cfStatsCountry, country));
 		collector.emit(new Values(rowkey, cfStatsState, state));
 		collector.emit(new Values(rowkey, cfStatsCity, city));
-	}
-	
-	
-	private String padding(Number n){
-		String s=null;
-		if(n instanceof Long){
-			s = Long.toHexString((long)n);
-		}else if(n instanceof Integer){
-			s = Integer.toHexString((int)n);
-		}
-		StringBuilder sb =  new StringBuilder();
-		for(int i=s.length();i<10;i++){
-			sb.append(0);
-		}
-		return sb.append(s).toString();
 	}
 
 }

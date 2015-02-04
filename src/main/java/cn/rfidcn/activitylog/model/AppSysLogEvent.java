@@ -10,8 +10,8 @@ public class AppSysLogEvent {
 	   String cl;
 	   String r;
 	   String l;
-	   String ae;
-	   int hae;
+	   Integer ae;
+	   Integer hae;
 	   String msg;
 	public short getLv() {
 		return lv;
@@ -67,16 +67,16 @@ public class AppSysLogEvent {
 	public void setL(String l) {
 		this.l = l;
 	}
-	public String getAe() {
+	public Integer getAe() {
 		return ae;
 	}
-	public void setAe(String ae) {
+	public void setAe(Integer ae) {
 		this.ae = ae;
 	}
-	public int getHae() {
+	public Integer getHae() {
 		return hae;
 	}
-	public void setHae(int hae) {
+	public void setHae(Integer hae) {
 		this.hae = hae;
 	}
 	public String getMsg() {
@@ -85,5 +85,7 @@ public class AppSysLogEvent {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
+	
+	   
 	   
 }

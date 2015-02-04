@@ -26,7 +26,7 @@ public class Activity implements Serializable {
 	   String msg;
 	   
 	   String bid;
-	   String pid;
+	   int pid;
 	   String sid;
 	   String hid;
 	   String num;
@@ -270,11 +270,11 @@ public class Activity implements Serializable {
 		this.bid = bid;
 	}
 
-	public String getPid() {
+	public int getPid() {
 		return pid;
 	}
 
-	public void setPid(String pid) {
+	public void setPid(int pid) {
 		this.pid = pid;
 	}
 

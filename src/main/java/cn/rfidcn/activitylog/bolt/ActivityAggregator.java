@@ -29,6 +29,7 @@ import storm.trident.tuple.TridentTuple;
 import backtype.storm.topology.FailedException;
 import cn.rfidcn.activitylog.KafkaStormTopology;
 import cn.rfidcn.activitylog.model.Activity;
+import cn.rfidcn.activitylog.utils.Helper;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -175,7 +176,7 @@ public class ActivityAggregator implements  Aggregator{
 		String colFamily = KafkaStormTopology.hbaseColFamily;
 		List<Method> methods = Activity.getters();
 		for (final Activity act : activityQueue) {
-			String rowkey = padding(act.getC())+padding(act.getPid())+padding(act.getTs().getTime());
+			String rowkey = Helper.padding(act.getC())+Helper.padding(act.getPid())+Helper.padding(act.getTs().getTime());
 			Put put = new Put(Bytes.toBytes(rowkey));
 			for(Method m : methods){
 				try {
@@ -224,19 +225,4 @@ public class ActivityAggregator implements  Aggregator{
 			}});
 		return Joiner.on(",").join(cols_list);
 	}
-	
-	private String padding(Number n){
-		String s=null;
-		if(n instanceof Long){
-			s = Long.toHexString((long)n);
-		}else if(n instanceof Integer){
-			s = Integer.toHexString((int)n);
-		}
-		StringBuilder sb =  new StringBuilder();
-		for(int i=s.length();i<10;i++){
-			sb.append(0);
-		}
-		return sb.append(s).toString();
-	}
-
 }

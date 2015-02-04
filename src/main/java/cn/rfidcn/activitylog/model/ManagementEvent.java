@@ -1,12 +1,13 @@
 package cn.rfidcn.activitylog.model;
 
 public class ManagementEvent extends AppSysLogEvent {
-	  int c;
+	  Integer c;
 	  String u;
-	public int getC() {
+	
+	public Integer getC() {
 		return c;
 	}
-	public void setC(int c) {
+	public void setC(Integer c) {
 		this.c = c;
 	}
 	public String getU() {

@@ -4,7 +4,7 @@
 <configuration>
 <property>
   <name>hbase.zookeeper.quorum</name>
-  <value>192.168.8.104</value>
+  <value>test1</value>
 </property>
 
 <property>
@@ -14,6 +14,6 @@
 
 <property>
 	<name>hbase.master</name>
-	<value>192.168.8.104:60000</value>
+	<value>test1:60000</value>
 </property>
 </configuration>
