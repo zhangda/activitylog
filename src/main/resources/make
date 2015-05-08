@@ -1,0 +1,4 @@
+mvn assembly:assembly -P dev
+bin/storm jar ~/activitylog-0.1-jar-with-dependencies.jar  cn.rfidcn.activitylog.KafkaStormTopology
+bin/storm kill activitylog
+

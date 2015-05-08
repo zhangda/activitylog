@@ -12,7 +12,7 @@ public class TestSplitFunction  extends BaseFunction {
 
 	@Override
 	public void execute(TridentTuple tuple, TridentCollector collector) {
-		//ip,companyid,productid
+		//ip,companyid,productid,batchid,rid
 		String s = tuple.getString(0).trim();
 		Activity act = new Activity();
 		String[] ss = s.split(",");
@@ -20,6 +20,8 @@ public class TestSplitFunction  extends BaseFunction {
 		act.setC(Integer.parseInt(ss[1]));
 		act.setTs(new Date());
 		act.setPid(Integer.parseInt(ss[2]));
+		act.setBid(ss[3]);
+		act.setR(ss[4]);
 		collector.emit(new Values(act));
 	}
 	

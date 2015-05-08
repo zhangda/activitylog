@@ -1,23 +1,20 @@
 package cn.rfidcn.activitylog.bolt;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.HConnection;
+import org.apache.hadoop.hbase.client.HConnectionManager;
+import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.RetriesExhaustedWithDetailsException;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.log4j.Logger;
 
@@ -27,41 +24,33 @@ import storm.trident.operation.TridentOperationContext;
 import storm.trident.topology.TransactionAttempt;
 import storm.trident.tuple.TridentTuple;
 import backtype.storm.topology.FailedException;
-import cn.rfidcn.activitylog.KafkaStormTopology;
 import cn.rfidcn.activitylog.model.Activity;
+import cn.rfidcn.activitylog.utils.ConfReader;
 import cn.rfidcn.activitylog.utils.Helper;
 
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
+import com.alibaba.fastjson.JSON;
 
 public class ActivityAggregator implements  Aggregator{
 
 	static final Logger logger = Logger.getLogger(ActivityAggregator.class);
 	
-	private Connection mysqlConnection;
-	private HTable hTable;
-	private Queue<Activity> activityQueue = new ConcurrentLinkedQueue<Activity>();
-	List<String> cols = Activity.getCols();
-	
-	static Configuration hbaseConfig = HBaseConfiguration.create();
+	private Queue<Activity> activityQueue;
+	static Configuration hbaseConfig;
+	static HConnection connection;
 	
 	@Override
 	public void prepare(Map conf, TridentOperationContext context) {
+		activityQueue = new LinkedBlockingQueue<Activity>();
+		hbaseConfig = HBaseConfiguration.create();
+		hbaseConfig.set("hbase.zookeeper.quorum", ConfReader.zkQuorum);
+		hbaseConfig.set("hbase.master", ConfReader.hMaster);
+		
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				logger.error("ClassNotFoundException", e);
-			}
-			try {
-				mysqlConnection = DriverManager.getConnection(KafkaStormTopology.mysqlUrl);
-			} catch (SQLException e) {
-				logger.error("SQLException", e);
-			}
-			
-			try {
-				hTable = new HTable(hbaseConfig, KafkaStormTopology.hbaseActTable);
-				hTable.setAutoFlush(false, true);
+//				hTable = new HTable(hbaseConfig,confReader.getProperty("hbaseActTable"));
+				if(connection == null){
+					connection = HConnectionManager.createConnection(hbaseConfig);
+				}
+//				hTable.setAutoFlush(false, true);
 			} catch (IOException e) {
 				logger.error("IOException", e);
 			}
@@ -70,12 +59,7 @@ public class ActivityAggregator implements  Aggregator{
 	@Override
 	public void cleanup() {
 		try {
-			mysqlConnection.close();
-		} catch (SQLException e) {
-			logger.error("SQLException", e);
-		}
-		try {
-			hTable.close();
+			connection.close();
 		} catch (IOException e) {
 			logger.error("IOException", e);
 		}
@@ -103,7 +87,6 @@ public class ActivityAggregator implements  Aggregator{
 			return;
 		logger.info("persist to database, # of records: " + activityQueue.size());
 	
-//		if(persistToMysql() && persistToHbase()){
 		if(persistToHbase()){
 			activityQueue.clear();
 		}else{
@@ -112,76 +95,33 @@ public class ActivityAggregator implements  Aggregator{
 		}	
 	}
 	
-	private boolean persistToMysql(){
-		boolean flag = true;
-		try {
-			if(mysqlConnection == null || mysqlConnection.isClosed())
-				mysqlConnection = DriverManager.getConnection(KafkaStormTopology.mysqlUrl);
-			} catch(SQLException e){
-				logger.error("SQLException", e);
-				return false;
-		}
-			String sql = new StringBuilder().append("INSERT INTO ")
-				.append(KafkaStormTopology.mysqlActTable)
-				.append(" (")
-				.append(Joiner.on(",").join(cols))
-				.append(")")
-				.append(" VALUES ")
-				.append(placeHolder(cols.size()))
-				.append(" ON DUPLICATE KEY UPDATE ")
-				.append(updateHolder(cols))
-				.toString();
-		PreparedStatement ps =null;
-		List<Method> methods = Activity.getters();
-		try {
-			int i=0;
-			int batchSize =KafkaStormTopology.mysqlBatchSize;
-			ps = mysqlConnection.prepareStatement(sql);
-			for (final Activity act : activityQueue) {
-				int j=0;
-				for(Method m: methods){
-					ps.setObject(++j, m.invoke(act));
-				}
-				ps.addBatch();
-				if(++i %batchSize == 0)
-					ps.executeBatch();
-			}
-			ps.executeBatch();
-		} catch (SQLException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			logger.error("Exception", e);
-			flag = false;
-		} finally {
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException ex) {
-					logger.error("SQLException", ex);
-					flag = false;
-				}
-			}
-		}
-		return flag;	
-	}
-	
 	private boolean persistToHbase(){
-		if(hTable ==null ){
-			try {
-				hTable = new HTable(hbaseConfig, KafkaStormTopology.hbaseActTable);
-				hTable.setAutoFlush(false, true);
-			} catch (IOException e) {
-				logger.error("IOException", e);
-				return false;
-			}
+		
+		HTableInterface hTable;
+		try {
+			hTable = connection.getTable(ConfReader.hbaseActTable);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
 		}
-		String colFamily = KafkaStormTopology.hbaseColFamily;
+		
+		String colFamily = ConfReader.hbaseColFamily;
 		List<Method> methods = Activity.getters();
+		List<Put> puts = new ArrayList<Put>();
 		for (final Activity act : activityQueue) {
-			String rowkey = Helper.padding(act.getC())+Helper.padding(act.getPid())+Helper.padding(act.getTs().getTime());
-			Put put = new Put(Bytes.toBytes(rowkey));
+			String rowkey = Helper.padding(act.getTs().getTime()) + act.getR();
+			Put put = new Put(Bytes.toBytes(rowkey), act.getTs().getTime());
 			for(Method m : methods){
 				try {
 					Object value = m.invoke(act);
 					String v = value==null?null:value.toString();
+					if(value instanceof Map){
+						v = value == null?null: JSON.toJSONString(value); 
+					}
+					if("getTs".equals(m.getName())){
+						v = String.valueOf(act.getTs().getTime());
+					}
 					if(value!=null){
 						put.add(Bytes.toBytes(colFamily), Bytes.toBytes(String.valueOf((m.getName().charAt(3))).toLowerCase()+m.getName().substring(4)), Bytes.toBytes(v));
 					}
@@ -191,38 +131,22 @@ public class ActivityAggregator implements  Aggregator{
 					return false;
 				}
 			}
-			try {
-				hTable.put(put);
-			} catch (RetriesExhaustedWithDetailsException
-					| InterruptedIOException e) {
-				e.printStackTrace();
-				return false;
-			}
+			puts.add(put);
 		}
 		try {
-			hTable.flushCommits();
-		} catch (RetriesExhaustedWithDetailsException | InterruptedIOException e) {
+			hTable.put(puts);
+//			hTable.flushCommits();
+		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
+		try {
+			hTable.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 	
-	private String placeHolder(int n){
-		StringBuilder sql =  new StringBuilder().append("(");
-		for(int i=0;i<n-1;i++){
-			sql.append("?, ");
-		}
-		sql.append("?)");
-		return sql.toString();
-	}
-	
-	private String updateHolder(List cols){
-		List cols_list = Lists.transform( Lists.newArrayList(cols), new Function(){
-			@Override
-			public Object apply(Object input) {
-				return input+"=values("+ input +")";
-			}});
-		return Joiner.on(",").join(cols_list);
-	}
 }

@@ -1,41 +1,15 @@
 create database pipeline;
 use pipeline;
 
-CREATE TABLE `activities` (
-  `logFormatVersion` int NOT NULL DEFAULT 0,
-  `timestamp` datetime NOT NULL,
-  `originIp` varchar(255) NOT NULL DEFAULT '',
-  `deploy` varchar(255) NOT NULL DEFAULT '',
-  `host` varchar(80) NOT NULL DEFAULT '',
-  `version` varchar(255) NOT NULL DEFAULT '',
-  `clientId` varchar(255) NOT NULL DEFAULT '',
-  `requestId` varchar(255) NOT NULL DEFAULT '',
-  `level` varchar(255) NOT NULL DEFAULT '',
-  `appEventId` int NOT NULL DEFAULT 0,
-  `msg` varchar(255) NOT NULL DEFAULT '',
-  `honestId` varchar(255) NOT NULL DEFAULT '',
-  `sequenceNum` varchar(255) NOT NULL DEFAULT '',
-  `batchId` int NOT NULL DEFAULT 0,
-  `productId` int NOT NULL DEFAULT 0 ,
-  `specId` int NOT NULL DEFAULT 0,
-  `rewardAmount` varchar(255) NOT NULL DEFAULT '',
-  `promoRuleId` int NOT NULL DEFAULT 0,
-  `rewardType` varchar(255) NOT NULL DEFAULT '',
-  `country` varchar(255) NOT NULL DEFAULT '',
-  `state` varchar(255) NOT NULL DEFAULT '',
-  `city` varchar(255) NOT NULL DEFAULT '',
-  `txid` int NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
-
 CREATE TABLE `activitycounts` (
-  `company` varchar(50) NOT NULL DEFAULT '',
-  `product` varchar(50) NOT NULL DEFAULT '',
+  `company` int NOT NULL,
+  `product` int NOT NULL,
   `timestamp` datetime NOT NULL,
-  `country` varchar(30) NOT NULL DEFAULT '',
-  `state` varchar(30) NOT NULL DEFAULT '',
-  `city` varchar(30) NOT NULL DEFAULT '',
+  `country` varchar(50) NOT NULL DEFAULT '',
+  `state` varchar(50) NOT NULL DEFAULT '',
+  `city` varchar(50) NOT NULL DEFAULT '',
   `txid` int NOT NULL DEFAULT 0,
-  `count` int NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+  `count` int NOT NULL DEFAULT 0,
+   PRIMARY KEY (company,product,timestamp,city,country,state)
+) ENGINE=innodb DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 
-CREATE UNIQUE INDEX uk ON activitycounts(company, product, timestamp, city);

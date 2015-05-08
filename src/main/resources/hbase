@@ -1,3 +1,3 @@
-create 'activities', {NAME=>'log', VERSION=>1}
+create 'activities', {NAME=>'log', VERSIONS=>1}
 
-create 'activitycounts', {NAME=>'daily',VERSION=>1},{NAME=>'monthly',VERSION=>1},{NAME=>'country',VERSION=>1},{NAME=>'state',VERSION=>1},{NAME=>'city',VERSION=>1}
+create 'activitycounts', {NAME=>'daily',VERSIONS=>1},{NAME=>'monthly',VERSIONS=>1},{NAME=>'country',VERSIONS=>1},{NAME=>'state',VERSIONS=>1},{NAME=>'city',VERSIONS=>1}

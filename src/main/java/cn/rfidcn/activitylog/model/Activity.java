@@ -6,13 +6,14 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class Activity implements Serializable {
 
-	   int c;
+	   Integer c;
 	   String u;
 	   
-	   short lv;
+	   Short lv;
 	   Date ts;
 	   String oip;
 	   String d;
@@ -22,45 +23,99 @@ public class Activity implements Serializable {
 	   String r;
 	   String l;
 	   String ae;
-	   int hae;
+	   Integer hae;
 	   String msg;
 	   
 	   String bid;
-	   int pid;
+	   Integer pid;
 	   String sid;
 	   String hid;
 	   String num;
-	   short at;
+	   Short at;
 	   String pn;
 	   String tu;
 	   String wu;
 
-	   
-	   String pri;
-	   String prt;
-	   String pra;
+	   // enter lottery
+	Integer pri;
+	Integer ptri;
+	Map<CharSequence, Integer> pts;
+	Map<CharSequence, String> rwds;
 	  
+	// claim reward
+	Integer rid;
+	String rn;
+	String rt;
+	String ra;
+	Integer okid;
+	String ok;
+	String vid;
+	String bkn;
+	String bkhn;
+	String bkhi;
+	String bkc;
+	
 	   String country;
 	   String state;
 	   String city;
-	   long txid;
-	   String actType;
+	   Long txid;
 	    
+	String geoip;
 	   
-	public String getActType() {
-		return actType;
+	
+	public String getRn() {
+		return rn;
 	}
-
-	public void setActType(String actType) {
-		this.actType = actType;
+	public void setRn(String rn) {
+		this.rn = rn;
 	}
-
-	public int getC() {
+	public Integer getOkid() {
+		return okid;
+	}
+	public void setOkid(Integer okid) {
+		this.okid = okid;
+	}
+	public Short getLv() {
+		return lv;
+	}
+	public void setLv(Short lv) {
+		this.lv = lv;
+	}
+	public Short getAt() {
+		return at;
+	}
+	public void setAt(Short at) {
+		this.at = at;
+	}
+	public Integer getC() {
 		return c;
 	}
-
-	public void setC(int c) {
+	public void setC(Integer c) {
 		this.c = c;
+	}
+	public Integer getHae() {
+		return hae;
+	}
+	public void setHae(Integer hae) {
+		this.hae = hae;
+	}
+	public Integer getPid() {
+		return pid;
+	}
+	public void setPid(Integer pid) {
+		this.pid = pid;
+	}
+	public Long getTxid() {
+		return txid;
+	}
+	public void setTxid(Long txid) {
+		this.txid = txid;
+	}
+	public String getGeoip() {
+		return geoip;
+	}
+	public void setGeoip(String geoip) {
+		this.geoip = geoip;
 	}
 
 	public String getU() {
@@ -71,13 +126,6 @@ public class Activity implements Serializable {
 		this.u = u;
 	}
 
-	public short getLv() {
-		return lv;
-	}
-
-	public void setLv(short lv) {
-		this.lv = lv;
-	}
 	public Date getTs() {
 		return ts;
 	}
@@ -174,14 +222,6 @@ public class Activity implements Serializable {
 		this.num = num;
 	}
 
-	public short getAt() {
-		return at;
-	}
-
-	public void setAt(short at) {
-		this.at = at;
-	}
-
 	public String getPn() {
 		return pn;
 	}
@@ -204,30 +244,6 @@ public class Activity implements Serializable {
 
 	public void setWu(String wu) {
 		this.wu = wu;
-	}
-
-	public int getHae() {
-		return hae;
-	}
-
-	public void setHae(int hae) {
-		this.hae = hae;
-	}
-
-	public String getPrt() {
-		return prt;
-	}
-
-	public void setPrt(String prt) {
-		this.prt = prt;
-	}
-
-	public String getPra() {
-		return pra;
-	}
-
-	public void setPra(String pra) {
-		this.pra = pra;
 	}
 
 	public String getCountry() {
@@ -254,28 +270,12 @@ public class Activity implements Serializable {
 		this.city = city;
 	}
 
-	public long getTxid() {
-		return txid;
-	}
-
-	public void setTxid(long txid) {
-		this.txid = txid;
-	}
-	
 	public String getBid() {
 		return bid;
 	}
 
 	public void setBid(String bid) {
 		this.bid = bid;
-	}
-
-	public int getPid() {
-		return pid;
-	}
-
-	public void setPid(int pid) {
-		this.pid = pid;
 	}
 
 	public String getSid() {
@@ -285,15 +285,87 @@ public class Activity implements Serializable {
 	public void setSid(String sid) {
 		this.sid = sid;
 	}
-
-	public String getPri() {
+	
+	
+	public Integer getPri() {
 		return pri;
 	}
-
-	public void setPri(String pri) {
+	public void setPri(Integer pri) {
 		this.pri = pri;
 	}
-
+	public Integer getPtri() {
+		return ptri;
+	}
+	public void setPtri(Integer ptri) {
+		this.ptri = ptri;
+	}
+	public Map<CharSequence, Integer> getPts() {
+		return pts;
+	}
+	public void setPts(Map<CharSequence, Integer> pts) {
+		this.pts = pts;
+	}
+	public Map<CharSequence, String> getRwds() {
+		return rwds;
+	}
+	public void setRwds(Map<CharSequence, String> rwds) {
+		this.rwds = rwds;
+	}
+	public Integer getRid() {
+		return rid;
+	}
+	public void setRid(Integer rid) {
+		this.rid = rid;
+	}
+	public String getRt() {
+		return rt;
+	}
+	public void setRt(String rt) {
+		this.rt = rt;
+	}
+	public String getRa() {
+		return ra;
+	}
+	public void setRa(String ra) {
+		this.ra = ra;
+	}
+	public String getOk() {
+		return ok;
+	}
+	public void setOk(String ok) {
+		this.ok = ok;
+	}
+	public String getVid() {
+		return vid;
+	}
+	public void setVid(String vid) {
+		this.vid = vid;
+	}
+	public String getBkn() {
+		return bkn;
+	}
+	public void setBkn(String bkn) {
+		this.bkn = bkn;
+	}
+	public String getBkhn() {
+		return bkhn;
+	}
+	public void setBkhn(String bkhn) {
+		this.bkhn = bkhn;
+	}
+	public String getBkhi() {
+		return bkhi;
+	}
+	public void setBkhi(String bkhi) {
+		this.bkhi = bkhi;
+	}
+	public String getBkc() {
+		return bkc;
+	}
+	public void setBkc(String bkc) {
+		this.bkc = bkc;
+	}
+	
 		public static List<String> getCols() {
 			List<String> cols = new ArrayList<String>();
 		    Field[] ff = Activity.class.getDeclaredFields();

@@ -1,7 +1,7 @@
 package cn.rfidcn.activitylog.state.mysql;
 
+import java.beans.PropertyVetoException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,20 +33,25 @@ import backtype.storm.tuple.Values;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class MysqlState<T> implements IBackingMap<T>{
+public class MysqlC3p0State<T> implements IBackingMap<T>{
 
 	private Connection connection;
 	private MysqlStateConfig config;
-	private static final Logger logger = Logger.getLogger(MysqlState.class);
+	ComboPooledDataSource dataSource;
+	private static final Logger logger = Logger.getLogger(MysqlC3p0State.class);
 
-	MysqlState(final MysqlStateConfig config) {
+	MysqlC3p0State(final MysqlStateConfig config) {
 		this.config = config;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(config.getUrl());
-		} catch (final SQLException | ClassNotFoundException ex) {
-			logger.error("Failed to establish DB connection", ex);
+		try {    
+			dataSource = new ComboPooledDataSource();             
+            dataSource.setJdbcUrl( config.getUrl()); 
+            dataSource.setUser(config.getUsername());
+            dataSource.setPassword(config.getPassword());
+            dataSource.setDriverClass( "com.mysql.jdbc.Driver");
+		} catch ( PropertyVetoException ex) {
+			logger.error("PropertyVetoException ", ex);
 		}
 	}
 
@@ -149,6 +154,7 @@ public class MysqlState<T> implements IBackingMap<T>{
 			PreparedStatement ps = null;
 			int i = 0;
 			try {
+				connection = dataSource.getConnection();
 				ps = connection.prepareStatement(queryBuilder.toString());
 				for (final Object param : params) {
 					ps.setObject(++i, param);
@@ -161,6 +167,9 @@ public class MysqlState<T> implements IBackingMap<T>{
 				if (ps != null) {
 					try {
 						ps.close();
+						connection.close();
+						ps = null;
+						connection = null;
 					} catch (SQLException ex) {
 						logger.error("Multiput update failed", ex);
 					}
@@ -213,20 +222,8 @@ public class MysqlState<T> implements IBackingMap<T>{
 		final Map<List<Object>, List<Object>> result = new HashMap<>();
 		PreparedStatement ps = null;
 		int i = 0;
-//		try {
-//			if(connection==null || connection.isClosed()){
-//			try {
-//				Class.forName("com.mysql.jdbc.Driver");
-//				connection = DriverManager.getConnection(config.getUrl());
-//			} catch (final SQLException | ClassNotFoundException ex) {
-//				logger.error("Failed to establish DB connection", ex);
-//			}
-//			}
-//		} catch (SQLException e) {
-//			logger.error("SQLException: ", e);
-//		}
-		
 		try {
+			connection = dataSource.getConnection();
 			ps = connection.prepareStatement(sql);
 			for (final List<Object> key : keys) {
 				for (final Object keyPart : key) {
@@ -256,6 +253,9 @@ public class MysqlState<T> implements IBackingMap<T>{
 			if (ps != null) {
 				try {
 					ps.close();
+					connection.close();
+					ps = null;
+					connection = null;
 				} catch (SQLException ex) {
 					logger.error("multiget query failed", ex);
 				}
@@ -314,7 +314,7 @@ public class MysqlState<T> implements IBackingMap<T>{
 		@Override
 		@SuppressWarnings({"rawtypes","unchecked"})
 		public State makeState(final Map conf, final IMetricsContext context, final int partitionIndex, final int numPartitions) {
-			final CachedMap map = new CachedMap(new MysqlState(config), config.getCacheSize());
+			final CachedMap map = new CachedMap(new MysqlC3p0State(config), config.getCacheSize());
 			MapState ms;
 			switch (config.getType()) {
 			case OPAQUE:

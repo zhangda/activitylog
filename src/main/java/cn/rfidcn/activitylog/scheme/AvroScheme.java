@@ -25,17 +25,18 @@ public class AvroScheme implements Scheme{
 		 DatumReader<GenericRecord> datumReader = new GenericDatumReader<GenericRecord>();
 		 DataFileReader<GenericRecord> dataFileReader = null;
 		 Class clazz = null;
+		 GenericRecord activity = null;
 	     try {
 			 dataFileReader = new DataFileReader<GenericRecord>(seekable, datumReader);
 			 clazz = Class.forName("cn.rfidcn.activitylog.model."+dataFileReader.getSchema().getName());
-			 GenericRecord activity = null;
 			 while (dataFileReader.hasNext()) {
-		            activity = dataFileReader.next(activity);   
+		            activity = dataFileReader.next(activity);
 		            Object obj = JSON.parseObject(activity.toString(), clazz);
 		            data.add(obj);
 		     }
 		     dataFileReader.close();
 		} catch (IOException | ClassNotFoundException e) {
+			System.out.println("receive from platform ==> "+activity.toString());
 			e.printStackTrace();
 		} 
 	     return new Values(data);
